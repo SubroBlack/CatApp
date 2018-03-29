@@ -1,0 +1,20 @@
+{
+  "name": "week2assignment",
+  "version": "1.0.0",
+  "description": "Assignment for week 2",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "SubroBlack",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "dotenv": "^5.0.1",
+    "env": "0.0.2",
+    "exif": "^0.6.0",
+    "express": "^4.16.3",
+    "mongoose": "^5.0.12",
+    "supervisor": "^0.12.0"
+  }
+}
