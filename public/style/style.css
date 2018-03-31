@@ -1,0 +1,83 @@
+.gallery {
+    width: 100%;
+    height: auto;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10%;
+    padding: 10px, 10px, 10px, 10px;
+}
+
+.container{ 
+    display: block;
+    width: 100%;
+    height: auto;
+    margin: 4px, 4px, 4px, 4px;
+    padding: 2px, 2px, 2px, 2px;
+    border: 3px solid #ddd;
+}
+
+.img-responsive {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin-left: auto;
+    margin-right:auto;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    padding: 2px, 2px, 0px, 2px;
+    border: 0px;
+    border-radius: 10%;
+}
+
+.modalImg{
+    display: block;
+    width: 85%;
+    height: auto;
+    margin-left: auto;
+    margin-right:auto;
+    margin-top:4%;
+    margin-bottom: 4%;
+    border: 0px;
+    border-radius: 5%;
+}
+
+h6 {
+    color: #737373;
+    padding: 2px, auto, 2px, auto;
+    margin: 10px, auto, 2px, auto;
+}
+
+.buttons {
+    display: block;
+    width: 99%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+#modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 1;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.959);
+}
+
+.modal_cont{
+    background-color: black;
+    margin: auto;
+    padding: 25px;
+    width: 80%;
+    height: auto;
+}
+
+#mapCont {
+    display: block;
+    height: 200px;
+    padding: 5px;
+}

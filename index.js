@@ -5,6 +5,7 @@ const app = express();
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const ExifImage = require('exif').ExifImage;
+const multer = require('multer');
 
 // dotenv for the MongoDB user access
 require('dotenv').config();
@@ -39,32 +40,59 @@ const Schema = mongoose.Schema;
 const catSchema = new Schema({
     category: String,
     title: String,
-    description: String,
-    
+    details: String,
+    original: String,
 });
 
 // Using the created Cat Schema to create a cat instance
 const Cat = mongoose.model('Cat', catSchema);
 
+// Convert the retrieved GPS data into GMaps format
+const gpsToDecimal = (gpsData, hem) => {
+    let d = parseFloat(gpsData[0]) + parseFloat(gpsData[1] / 60) +
+        parseFloat(gpsData[2] / 3600);
+    return (hem === 'S' || hem === 'W') ? d *= -1 : d;
+  };
+
+// Using Exif to make function to abstract the co-ordinates from an image
+const getSpot = (image_path) => {
+    return new Promise((resolve, reject) => {
+        new ExifImage({image: image_path}, (error, exifData) => {
+            if (error) {
+            reject('Error: ' + error.message);
+            } else {
+                resolve({
+                    lat: gpsToDecimal(exifData.gps.GPSLatitude,
+                        exifData.gps.GPSLatitudeRef),
+                    lng: gpsToDecimal(exifData.gps.GPSLongitude,
+                        exifData.gps.GPSLongitudeRef),
+                });
+            }
+        });
+    });
+}
+
+//Using Multer to get the image file
+const upload = multer({dest: 'public/media'});
 
 // Reading the Form to create a new Cat 
-app.post('/add', (req, res) => {
-    console.log(JSON.stringify(req.body));
+app.post('/add', upload.single('original'), (req, res) => {
+    req.body.original = 'public/media/' + req.file.filename;
+    console.log(req.body)
     Cat.create(req.body).then(post => {
         console.log(process.env.Name + ' created a new cat: ');
         console.log(post.id);
         console.log(post.title);
         console.log(post.category);
+        console.log(post.original);
+        getSpot(post.original).then(resp => {
+            console.log(resp);/*
+            gpsToDecimal(resp,hem).then(resp => {
+                console.log(resp);
+            })*/
+        })
     });
     res.redirect('/');
 })
-
-/*// Using Exif to abstract the data from an image
-const myTable =  new ExifImage({ image : './media/taable.jpg' }, function (error, exifData) {
- if (error) {console.log('Error: '+error.message);} 
- else{
-  console.log(exifData); // Do something with your data!
-}
-});*/
 
 // Retrieving the data from the Database

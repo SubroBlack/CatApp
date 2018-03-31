@@ -5,21 +5,22 @@
   <meta charset="utf-8">
 
   <title>Add a cat</title>
-  <meta name="description" content="The HTML5 Herald">
-  <meta name="author" content="SitePoint">
+  <meta name="description" content="Form to input the cat pic">
+  <meta name="author" content="">
  
 </head>
 
 <body>
     <h1>Alright!!! Lets add a cat</h1>
 
-    <form action="/add" method="POST">
+    <form id="cadAddForm" action="/add" method="POST" enctype="multipart/form-data">
         <label >Category: </label><input type="text" name="category"><br>
         <label >Title: </label><input type="text" name="title"><br>
-        <label >Description: </label><input type="text" name="description"><br>
-        <label>Image: </label><input type="file" name="catImg"><br>
+        <label >Details: </label><input type="text" name="details"><br>
+        <label>Image: </label><input type="file" name="original"><br>
         <input type="submit"  />
     </form>
 
+    <script src="./scripts/form.js"></script>
 </body>
 </html>
