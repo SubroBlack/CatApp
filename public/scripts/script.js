@@ -1,7 +1,7 @@
 const filt = document.querySelector('#filter');
 
 // fetching the picArray JSON file 
-fetch('./picArray.json')
+fetch('/api')
 .then((res) => res.json())
 .then((data) => {
  const picArr = data;

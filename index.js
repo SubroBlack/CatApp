@@ -64,7 +64,7 @@ const catSchema = new Schema({
 });
 
 // Using the created Cat Schema to create a cat instance
-const Cat = mongoose.model('Cat', catSchema);
+const Cats = mongoose.model('Cats', catSchema);
 
 // Convert the retrieved GPS data into GMaps format
 const gpsToDecimal = (gpsData, hem) => {
@@ -96,7 +96,7 @@ const gpsToDecimal = (gpsData, hem) => {
             }
         });
     });
-} 
+}
 
 //Using Multer to get the image file
 const storage = multer.diskStorage({
@@ -128,13 +128,25 @@ app.post('/add', upload.single('original'), (req, res) => {
     getSpot(originalPath)
     .then((coords) =>{
         req.body.coordinates = coords;
-        Cat.create(req.body).then(post => {
-            console.log(post); 
+
+        Cats.create(req.body, (err, obj) => {
+            if (err){
+                console.log(err)
+            } else {
+                console.log('successful')
+                console.log(obj)
+            }
         });
+        res.redirect('/');
+
+        // Cats.create(req.body).then(post => {
+        //     //console.log(post); 
+        // });
     }).catch(err => console.log(err));
-
-    res.redirect('/');
-    console.log('\n\n\n\n\n');
 })
-
+app.get('/api', (req, res) => {
+    Cats.find({}, (err, data) => {
+        res.json(data)
+    })
+})
 // Retrieving the data from the Database
