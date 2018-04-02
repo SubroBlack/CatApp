@@ -6,10 +6,11 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const ExifImage = require('exif').ExifImage;
 const multer = require('multer');
+const sharp = require('sharp');
 
 // dotenv for the MongoDB user access
 require('dotenv').config();
-const path = require('path');
+const path = require('path'); 
 
 
 // Parse Application/x-www-form-urlencoded
@@ -17,10 +18,21 @@ app.use(bodyParser.urlencoded({ extended: false }))
 // Parse application/JSON
 app.use(bodyParser.json());
 
+// Using Sharp to resize the image
+const resize = (input, output, w, h) => {
+    return new Promise((resolve, reject) => {
+        sharp({url:input, encoding:null}).resize(w, h).toFile(output, (err, info) => {
+            if(err)
+            reject(err);
+            if(info)
+            resolve(info);
+        });
+    })
+}
+
 //Connecting to the Database 
 mongoose.connect(`mongodb://${process.env.DB_USER}:${process.env.DB_PASS}@localhost:27017/test`).then(() => {
   console.log('Connected successfully!!!!.');
-  console.log(process.env.NAME); 
   app.listen(3000);
 }, err => {
   console.log('Connection to db failed: ' + err);
@@ -31,7 +43,7 @@ app.use(express.static('public'));
 
 // Rendering Cats form to the /new path
 app.get('/new', (req, res) => {
-    res.sendFile(path.join(__dirname+'/public/form.html'));
+    res.sendFile(path.join(__dirname,'/public/form.html'));
 })
 
 // Creating a Schema for the cat
@@ -41,7 +53,14 @@ const catSchema = new Schema({
     category: String,
     title: String,
     details: String,
+    coordinates : {
+        lat: Number,
+        lng: Number
+    },
     original: String,
+    image : String,
+    thumbnail : String,
+    time: Date
 });
 
 // Using the created Cat Schema to create a cat instance
@@ -52,47 +71,70 @@ const gpsToDecimal = (gpsData, hem) => {
     let d = parseFloat(gpsData[0]) + parseFloat(gpsData[1] / 60) +
         parseFloat(gpsData[2] / 3600);
     return (hem === 'S' || hem === 'W') ? d *= -1 : d;
-  };
+  }; 
 
 // Using Exif to make function to abstract the co-ordinates from an image
-const getSpot = (image_path) => {
+ const getSpot = (image_path) => {
     return new Promise((resolve, reject) => {
         new ExifImage({image: image_path}, (error, exifData) => {
             if (error) {
             reject('Error: ' + error.message);
             } else {
-                resolve({
-                    lat: gpsToDecimal(exifData.gps.GPSLatitude,
-                        exifData.gps.GPSLatitudeRef),
-                    lng: gpsToDecimal(exifData.gps.GPSLongitude,
-                        exifData.gps.GPSLongitudeRef),
-                });
+                if(exifData.gps.GPSLatitude){
+                    resolve({
+                        lat: gpsToDecimal(exifData.gps.GPSLatitude,
+                            exifData.gps.GPSLatitudeRef),
+                        lng: gpsToDecimal(exifData.gps.GPSLongitude,
+                            exifData.gps.GPSLongitudeRef),
+                    });
+                } else {
+                    resolve({
+                        lat: 60.20803888888889,
+                        lng: 24.662988888888886,
+                    })  
+                }
             }
         });
     });
-}
+} 
 
 //Using Multer to get the image file
-const upload = multer({dest: 'public/media'});
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+      cb(null, path.join( __dirname + '/public/media/original'));
+    },
+    filename: (req, file, cb) => {
+        cb(null, file.originalname);
+    }
+  });
+  
+const upload = multer({ storage: storage });
 
 // Reading the Form to create a new Cat 
 app.post('/add', upload.single('original'), (req, res) => {
-    req.body.original = 'public/media/' + req.file.filename;
-    console.log(req.body)
-    Cat.create(req.body).then(post => {
-        console.log(process.env.Name + ' created a new cat: ');
-        console.log(post.id);
-        console.log(post.title);
-        console.log(post.category);
-        console.log(post.original);
-        getSpot(post.original).then(resp => {
-            console.log(resp);/*
-            gpsToDecimal(resp,hem).then(resp => {
-                console.log(resp);
-            })*/
-        })
-    });
+    const originalPath = path.join(__dirname,'public/media/original/', req.file.filename);
+    const thumbPath = path.join(__dirname,'public/media/thumbnails/', req.file.filename);
+    
+    req.body.original = originalPath;
+    req.body.image = originalPath;
+    req.body.thumbnail = originalPath;
+    req.body.time = Date.now();
+    
+    if(req.file.mimetype == 'png'){
+        resize(originalPath, thumbPath, 512, 512);
+        req.body.thumbnail = thumbPath;
+    }
+    
+    getSpot(originalPath)
+    .then((coords) =>{
+        req.body.coordinates = coords;
+        Cat.create(req.body).then(post => {
+            console.log(post); 
+        });
+    }).catch(err => console.log(err));
+
     res.redirect('/');
+    console.log('\n\n\n\n\n');
 })
 
 // Retrieving the data from the Database
