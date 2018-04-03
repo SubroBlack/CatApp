@@ -7,7 +7,7 @@ fetch('/api')
  const picArr = data;
  console.log(picArr);
  
- // filter array by category
+ // filter array by category 
  updateDOM(picArr);
  filt.addEventListener('change',() => updateDOM(picArr));
 });
@@ -30,8 +30,8 @@ const updateDOM = (Arr) => {
   });
   document.querySelector('.gallery').innerHTML ='';
  arr.forEach((element) => {
-  const container = document.createElement('div');
-  container.className = 'container col-md-4';
+  const imgNode = document.createElement('div');
+  imgNode.className = 'container-fluid imgNode col-xs-3';
 
 // Function to open the modal
   const openModal = () => {
@@ -45,7 +45,7 @@ const updateDOM = (Arr) => {
 
 // Function to create and render the image elements inside the container
   const addImg = document.createElement('img');
-  addImg.src = element.thumbnail ;
+  addImg.src = element.original ;
   addImg.className = 'img-responsive';
   addImg.id = element.id;
   addImg.addEventListener('click', openModal);
@@ -76,11 +76,11 @@ modal.style.display = 'none';
 // The container-fluid for the containing in the contents of the modal
 const cont = document.createElement('div');
 cont.className = 'container-fluid';
-cont.classNmae = 'modal_cont';
+cont.className = 'modal_cont';
 // Image inside the modal
 const imgBig = document.createElement('img');
 imgBig.className = 'modalImg img-responsive';
-imgBig.src = element.image;
+imgBig.src = element.original;
 //CLose button for the modal
 const close = document.createElement('span');
 close.innerHTML = '&times';
@@ -103,13 +103,13 @@ mapCont.src = `https://www.google.com/maps/embed/v1/place?key=${APIkey}&q=${elem
 
 
 // rendering everything on the DOM Tree
-  pics.appendChild(container);
-  container.appendChild(addImg);
-  container.appendChild(title);
-  container.appendChild(date);
-  container.appendChild(btn);
-  container.appendChild(details);
-  container.appendChild(mapCont);
+  pics.appendChild(imgNode);
+  imgNode.appendChild(addImg);
+  imgNode.appendChild(title);
+  imgNode.appendChild(date);
+  imgNode.appendChild(btn);
+  imgNode.appendChild(details);
+  imgNode.appendChild(mapCont);
   document.body.appendChild(modal);
  })
 }

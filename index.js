@@ -101,7 +101,7 @@ const gpsToDecimal = (gpsData, hem) => {
 //Using Multer to get the image file
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-      cb(null, path.join( __dirname + '/public/media/original'));
+      cb(null, './public/media/original');
     },
     filename: (req, file, cb) => {
         cb(null, file.originalname);
@@ -112,8 +112,8 @@ const upload = multer({ storage: storage });
 
 // Reading the Form to create a new Cat 
 app.post('/add', upload.single('original'), (req, res) => {
-    const originalPath = path.join(__dirname,'public/media/original/', req.file.filename);
-    const thumbPath = path.join(__dirname,'public/media/thumbnails/', req.file.filename);
+    const originalPath = path.join('public/media/original', req.file.filename);
+    //const thumbPath = path.join('media/thumbnails/', req.file.filename);
     
     req.body.original = originalPath;
     req.body.image = originalPath;
@@ -132,17 +132,16 @@ app.post('/add', upload.single('original'), (req, res) => {
         Cats.create(req.body, (err, obj) => {
             if (err){
                 console.log(err)
+                res.redirect('/new');
             } else {
-                console.log('successful')
+                console.log('successfully added an entry to the database')
                 console.log(obj)
+                //res.redirect('/new');
             }
         });
-        res.redirect('/');
 
-        // Cats.create(req.body).then(post => {
-        //     //console.log(post); 
-        // });
     }).catch(err => console.log(err));
+    res.redirect('/');
 })
 app.get('/api', (req, res) => {
     Cats.find({}, (err, data) => {
