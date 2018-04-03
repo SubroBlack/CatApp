@@ -78,7 +78,7 @@ const gpsToDecimal = (gpsData, hem) => {
     return new Promise((resolve, reject) => {
         new ExifImage({image: image_path}, (error, exifData) => {
             if (error) {
-            reject('Error: ' + error.message);
+            reject('Error in getSpot function: ' + error.message);
             } else {
                 if(exifData.gps.GPSLatitude){
                     resolve({
@@ -101,7 +101,7 @@ const gpsToDecimal = (gpsData, hem) => {
 //Using Multer to get the image file
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-      cb(null, './public/media/original');
+      cb(null, path.join('public', 'media','original' ));
     },
     filename: (req, file, cb) => {
         cb(null, file.originalname);
@@ -112,7 +112,7 @@ const upload = multer({ storage: storage });
 
 // Reading the Form to create a new Cat 
 app.post('/add', upload.single('original'), (req, res) => {
-    const originalPath = path.join('public/media/original', req.file.filename);
+    const originalPath = path.join('media', 'original', req.file.filename);
     //const thumbPath = path.join('media/thumbnails/', req.file.filename);
     
     req.body.original = originalPath;
@@ -120,27 +120,27 @@ app.post('/add', upload.single('original'), (req, res) => {
     req.body.thumbnail = originalPath;
     req.body.time = Date.now();
     
-    if(req.file.mimetype == 'png'){
+    /*if(req.file.mimetype == 'png'){
         resize(originalPath, thumbPath, 512, 512);
         req.body.thumbnail = thumbPath;
-    }
+    }*/
     
-    getSpot(originalPath)
+    getSpot(path.join('public', originalPath))
     .then((coords) =>{
         req.body.coordinates = coords;
 
         Cats.create(req.body, (err, obj) => {
             if (err){
-                console.log(err)
-                res.redirect('/new');
+                console.log('Error in creating the Cat in cats.create: ' + err)
+                res.redirect('/');
             } else {
                 console.log('successfully added an entry to the database')
                 console.log(obj)
-                //res.redirect('/new');
+                //res.redirect('/');
             }
         });
 
-    }).catch(err => console.log(err));
+    }).catch(err => console.log('Error while calling the getSpot inside app.post: ' + err));
     res.redirect('/');
 })
 app.get('/api', (req, res) => {

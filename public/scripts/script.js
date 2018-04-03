@@ -31,7 +31,7 @@ const updateDOM = (Arr) => {
   document.querySelector('.gallery').innerHTML ='';
  arr.forEach((element) => {
   const imgNode = document.createElement('div');
-  imgNode.className = 'container-fluid imgNode col-xs-3';
+  imgNode.className = 'imgNode col-md-4';
 
 // Function to open the modal
   const openModal = () => {
@@ -45,7 +45,7 @@ const updateDOM = (Arr) => {
 
 // Function to create and render the image elements inside the container
   const addImg = document.createElement('img');
-  addImg.src = element.original ;
+  addImg.src = element.original;
   addImg.className = 'img-responsive';
   addImg.id = element.id;
   addImg.addEventListener('click', openModal);
