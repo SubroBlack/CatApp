@@ -89,8 +89,8 @@ const gpsToDecimal = (gpsData, hem) => {
                     });
                 } else {
                     resolve({
-                        lat: 60.20803888888889,
-                        lng: 24.662988888888886,
+                        lat: 40.748817,
+                        lng: -73.985428,
                     })  
                 }
             }
@@ -111,7 +111,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 // Reading the Form to create a new Cat 
-app.post('/add', upload.single('original'), (req, res) => {
+app.post('/add', upload.single('original'), (req, res, next) => {
     const originalPath = path.join('media', 'original', req.file.filename);
     //const thumbPath = path.join('media/thumbnails/', req.file.filename);
     
@@ -132,17 +132,22 @@ app.post('/add', upload.single('original'), (req, res) => {
         Cats.create(req.body, (err, obj) => {
             if (err){
                 console.log('Error in creating the Cat in cats.create: ' + err)
-                res.redirect('/');
             } else {
                 console.log('successfully added an entry to the database')
-                console.log(obj)
-                //res.redirect('/');
+                console.log(obj);
+                next();
             }
-        });
+        })
 
     }).catch(err => console.log('Error while calling the getSpot inside app.post: ' + err));
+})
+
+// Redirecting from the continuation of app.post function
+app.post('/add', (req, res) => {
     res.redirect('/');
 })
+
+// Sending file to ./api URL to monitor the jSON arrays
 app.get('/api', (req, res) => {
     Cats.find({}, (err, data) => {
         res.json(data)
