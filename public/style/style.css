@@ -47,6 +47,48 @@ h6 {
     margin: 10px, auto, 2px, auto;
 }
 
+#catAddForm {
+    display: block;
+    width : 80%;
+    height: auto;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 4%;
+    margin-bottom: 10%;
+    padding: 5% 5% 5% 5%;
+    color: rgb(3, 109, 68);
+    font-size: 125%;
+    background-color: aquamarine;
+    border: 8px solid rgb(3, 109, 68);
+    border-radius: 5%;
+}
+
+input {
+    display: block;
+    width: 95%;
+    padding: 2px auto 2px auto;
+    margin: 10px auto 2px auto;
+    background-color: aquamarine;
+    border: none;
+    border-bottom: 3px solid rgb(3, 109, 68);
+}
+
+.btn{
+    display: block;
+    padding: 2% 2% 2% 2%;
+    background-color: rgba(50, 175, 133, 0.651);
+    border: 2px solid rgb(3, 109, 68);
+    color: white;
+    font-size: 110%;
+    font-weight: bold;
+}
+
+h1 {
+    color: #737373;
+    padding: 2px auto 2px auto;
+    margin: 10px auto 2px auto;
+}
+
 .buttons {
     display: block;
     width: 99%;
