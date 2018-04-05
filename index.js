@@ -46,6 +46,10 @@ app.get('/new', (req, res) => {
     res.sendFile(path.join(__dirname,'/public/form.html'));
 })
 
+app.get('/', (req, res) => {
+    res.send('check')
+})
+
 // Creating a Schema for the cat
 const Schema = mongoose.Schema;
 
@@ -114,7 +118,7 @@ const upload = multer({ storage: storage });
 app.post('/add', upload.single('original'), (req, res, next) => {
     const originalPath = path.join('media', 'original', req.file.filename);
     //const thumbPath = path.join('media/thumbnails/', req.file.filename);
-    
+
     req.body.original = originalPath;
     req.body.image = originalPath;
     req.body.thumbnail = originalPath;
@@ -135,17 +139,13 @@ app.post('/add', upload.single('original'), (req, res, next) => {
             } else {
                 console.log('successfully added an entry to the database')
                 console.log(obj);
-                next();
             }
         })
 
     }).catch(err => console.log('Error while calling the getSpot inside app.post: ' + err));
-})
-
-// Redirecting from the continuation of app.post function
-app.post('/add', (req, res) => {
     res.redirect('/');
 })
+
 
 // Sending file to ./api URL to monitor the jSON arrays
 app.get('/api', (req, res) => {
@@ -153,4 +153,3 @@ app.get('/api', (req, res) => {
         res.json(data)
     })
 })
-// Retrieving the data from the Database
