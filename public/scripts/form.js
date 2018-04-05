@@ -1,6 +1,6 @@
 // Using Form Data to feed the form input
 const catAddForm = document.querySelector('#catAddForm'); 
-const submitButton = document.querySelector('#submitButton');
+//const submitButton = document.querySelector('#submitButton');
 
 const submitForm = () => {
   
@@ -11,5 +11,5 @@ const submitForm = () => {
         body: formData
     });
 }
-submitButton.addEventListener('click', submitForm);
+//submitButton.addEventListener('click', submitForm);
 
