@@ -43,6 +43,15 @@ const updateDOM = (Arr) => {
     modal.style.display = 'none';
   }
 
+// Function to delete the entry
+  const del = (e) => {
+    e.preventDefault();
+    fetch(btnDel.dataset.id, {
+      method: 'DELETE'
+    })
+    imgNode.style.display = 'none';
+  }
+
 // Function to create and render the image elements inside the container
   const addImg = document.createElement('img');
   addImg.src = element.original;
@@ -63,11 +72,18 @@ const updateDOM = (Arr) => {
   details.innerHTML = element.details;
 
 // Button to trigger the opening of the modal
-  const btn = document.createElement('button');
-  btn.id = element.id;
-  btn.className = 'buttons';
-  btn.innerHTML = 'Details';
-  btn.addEventListener('click', openModal);
+  const btnModal = document.createElement('button');
+  btnModal.id = element._id;
+  btnModal.className = 'col-sm-6';
+  btnModal.innerHTML = 'Details';
+  btnModal.addEventListener('click', openModal);
+
+  // Button to delete the entry
+  const btnDel = document.createElement('button');
+  btnDel.className = 'col-sm-6';
+  btnDel.innerHTML = 'Delete';
+  btnDel.setAttribute('data-id', element._id)
+  btnDel.addEventListener('click', del);
 
 // Creating a Modal
 const modal = document.createElement('modal');
@@ -107,7 +123,8 @@ mapCont.src = `https://www.google.com/maps/embed/v1/place?key=${APIkey}&q=${elem
   imgNode.appendChild(addImg);
   imgNode.appendChild(title);
   imgNode.appendChild(date);
-  imgNode.appendChild(btn);
+  imgNode.appendChild(btnModal);
+  imgNode.appendChild(btnDel);
   imgNode.appendChild(details);
   imgNode.appendChild(mapCont);
   document.body.appendChild(modal);

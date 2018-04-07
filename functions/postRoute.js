@@ -9,6 +9,8 @@ const multer = require('multer');
 const sharp = require('sharp');
 const path = require('path'); 
 
+// Import other js files
+const crud = require('./crud.js');
 
 // Parse Application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -26,26 +28,6 @@ const resize = (input, output, w, h) => {
         });
     })
 }
-
-// Creating a Schema for the cat
-const Schema = mongoose.Schema;
-
-const catSchema = new Schema({
-    category: String,
-    title: String,
-    details: String,
-    coordinates : {
-        lat: Number,
-        lng: Number
-    },
-    original: String,
-    image : String,
-    thumbnail : String,
-    time: Date
-});
-
-// Using the created Cat Schema to create a cat instance
-const Cats = mongoose.model('Cats', catSchema);
 
 // Convert the retrieved GPS data into GMaps format
 const gpsToDecimal = (gpsData, hem) => {
@@ -92,6 +74,26 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 module.exports = (app) => {
+
+    // Creating a Schema for the cat
+const Schema = mongoose.Schema;
+
+const catSchema = new Schema({
+    category: String,
+    title: String,
+    details: String,
+    coordinates : {
+        lat: Number,
+        lng: Number
+    },
+    original: String,
+    image : String,
+    thumbnail : String,
+    time: Date
+});
+
+// Using the created Cat Schema to create a cat instance
+const Cats = mongoose.model('Cats', catSchema);
         
     /////////////POST/////////////
 
@@ -132,5 +134,8 @@ module.exports = (app) => {
         Cats.find({}, (err, data) => {
             res.json(data)
         })
-    })    
+    })
+    
+    // Handling the CRUD requests in crud.js
+    crud(app, Cats);
 }
