@@ -75,7 +75,7 @@ const upload = multer({ storage: storage });
 
 module.exports = (app) => {
 
-    // Creating a Schema for the cat
+// Creating a Schema for the cat
 const Schema = mongoose.Schema;
 
 const catSchema = new Schema({
@@ -127,13 +127,6 @@ const Cats = mongoose.model('Cats', catSchema);
 
         }).catch(err => console.log('Error while calling the getSpot inside app.post: ' + err));
         res.redirect('/');
-    })
-
-    // Sending file to ./api URL to monitor the jSON arrays
-    app.get('/api', (req, res) => {
-        Cats.find({}, (err, data) => {
-            res.json(data)
-        })
     })
     
     // Handling the CRUD requests in crud.js

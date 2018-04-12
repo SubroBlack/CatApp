@@ -50,8 +50,22 @@ const updateDOM = (Arr) => {
       method: 'DELETE'
     })
     imgNode.style.display = 'none';
-  }
+  };
 
+  // Function to Edit the entry
+/*    const editEntry = (e) => {
+    e.preventDefault();
+    console.log('Edit Button Clicked' + btnEdit.dataset.id);
+    fetch(btnEdit.dataset.id, {
+      method: 'PUT'
+    })
+  }; */
+
+    // Function to Edit the entry
+   const editEntry = () => {
+    window.location.assign('/edit/' + element._id);    
+  };
+ 
 // Function to create and render the image elements inside the container
   const addImg = document.createElement('img');
   addImg.src = element.original;
@@ -74,16 +88,23 @@ const updateDOM = (Arr) => {
 // Button to trigger the opening of the modal
   const btnModal = document.createElement('button');
   btnModal.id = element._id;
-  btnModal.className = 'col-sm-6';
+  btnModal.className = 'col-sm-4';
   btnModal.innerHTML = 'Details';
   btnModal.addEventListener('click', openModal);
 
   // Button to delete the entry
   const btnDel = document.createElement('button');
-  btnDel.className = 'col-sm-6';
+  btnDel.className = 'col-sm-4';
   btnDel.innerHTML = 'Delete';
-  btnDel.setAttribute('data-id', element._id)
+  btnDel.setAttribute('data-id', element._id);
   btnDel.addEventListener('click', del);
+
+  // Button to Edit the entry
+  const btnEdit = document.createElement('button');
+  btnEdit.className = 'col-sm-4';
+  btnEdit.innerHTML = 'Edit';
+  btnEdit.setAttribute('data-id', element._id);
+  btnEdit.addEventListener('click', editEntry);
 
 // Creating a Modal
 const modal = document.createElement('modal');
@@ -125,14 +146,9 @@ mapCont.src = `https://www.google.com/maps/embed/v1/place?key=${APIkey}&q=${elem
   imgNode.appendChild(date);
   imgNode.appendChild(btnModal);
   imgNode.appendChild(btnDel);
+  imgNode.appendChild(btnEdit);
   imgNode.appendChild(details);
   imgNode.appendChild(mapCont);
   document.body.appendChild(modal);
  })
 }
-
-
-
-
-
-

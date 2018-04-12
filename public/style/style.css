@@ -63,6 +63,22 @@ h6 {
     border-radius: 5%;
 }
 
+#catEditForm {
+    display: block;
+    width : 80%;
+    height: auto;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 4%;
+    margin-bottom: 10%;
+    padding: 5% 5% 5% 5%;
+    color: rgb(3, 109, 68);
+    font-size: 125%;
+    background-color: aquamarine;
+    border: 8px solid rgb(3, 109, 68);
+    border-radius: 5%;
+}
+
 input {
     display: block;
     width: 95%;
