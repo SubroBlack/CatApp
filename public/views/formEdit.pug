@@ -1,0 +1,29 @@
+
+doctype html
+html(lang='en')
+ head
+  title= 'Edit the Kitten'
+  meta(charset= 'utf-8')
+ body
+  nav
+   a(href= '/')= 'Home'
+  main
+   h2 Alright! Lets edit this Kitten
+   h5 With the id: ID
+   
+   form(id= 'catEditForm' action= '/edit' method= 'POST' enctype= 'multipart/form-data')
+    label ID of the element
+    input(type='text' id='idGrab' name= 'id' value= ID readonly)    
+    br
+    label Category
+    input(type= 'text' name= 'category' value= category )
+    <br>
+    label Title 
+    input(type= 'text' name= 'title' value= title )
+    <br>
+    label Details
+    input(type= 'text' name= 'details' value= details )
+    <br>
+    button(class='btn' id='subEdit' type='submit') Submit
+  script(type= 'text/javascript' src='../scripts/editForm.js')
+  

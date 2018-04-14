@@ -20,19 +20,19 @@ module.exports = (app, cats) =>{
     })
 
     //Edit Route (test - success to change details into static string)
-/*      app.put('/:id', function (req,res){
+/*       app.put('/:id', function (req,res){
         cats.findByIdAndUpdate(req.params.id, { $set: { details: 'This is the newly edited entry' }}, function (err, cat) {
             if(err) return handleError(err);
             res.send(cat);
         })
-    }); */ 
+    });  */ 
 
     // Edit Route to send form
      app.get('/edit/:id', function (req, res) {
         console.log('The object is asking for edit form: ' + req.params.id);
         cats.findOne({ _id: req.params.id }, (err, data) => {
             //console.log(data.title);
-            res.render('formEdit', { ID: data._id, category: data.category, title: data.title, details: data.details });
+            res.render('formEdit', { ID: data._id, category: data.category, title: data.title, details: data.details, original: data.original });
         })
         //res.send('Hello from EditForm');
     }) 

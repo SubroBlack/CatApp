@@ -10,12 +10,13 @@ const http = require('http');
 const pug = require('pug');
 const helmet = require('helmet');
 const cors = require('cors');
+const path = require('path');
 
 app.set('view engine', 'pug');
+app.set("views", path.join(__dirname, 'public/views'));
 
 // dotenv for the MongoDB user access
 require('dotenv').config();
-const path = require('path'); 
 
 // Importing the MODULES
 const postRoute = require('./functions/postRoute.js');

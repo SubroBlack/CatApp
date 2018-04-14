@@ -75,10 +75,10 @@ const upload = multer({ storage: storage });
 
 module.exports = (app) => {
 
-// Creating a Schema for the cat
-const Schema = mongoose.Schema;
+ // Creating a Schema for the cat
+ const Schema = mongoose.Schema;
 
-const catSchema = new Schema({
+ const catSchema = new Schema({
     category: String,
     title: String,
     details: String,
@@ -90,10 +90,10 @@ const catSchema = new Schema({
     image : String,
     thumbnail : String,
     time: Date
-});
+ });
 
-// Using the created Cat Schema to create a cat instance
-const Cats = mongoose.model('Cats', catSchema);
+ // Using the created Cat Schema to create a cat instance
+ const Cats = mongoose.model('Cats', catSchema);
         
     /////////////POST/////////////
 
@@ -127,6 +127,23 @@ const Cats = mongoose.model('Cats', catSchema);
 
         }).catch(err => console.log('Error while calling the getSpot inside app.post: ' + err));
         res.redirect('/');
+    })
+
+    // PUT request from the form 
+    app.post('/edit', upload.single('original'), (req, res, next) => {
+        console.log('Oh Look what Happended!!!!!!!');
+        req.body.time = Date.now();
+
+            Cats.findOneAndUpdate({_id: req.body.id}, 
+                { $set: { details: req.body.details, 
+                    title: req.body.title, 
+                    category:req.body.category, 
+                    time:req.body.time }}, 
+                    function (err, cat) {
+                if(err) return handleError(err);
+                cat.save();
+                res.redirect('/');
+            }) 
     })
     
     // Handling the CRUD requests in crud.js
