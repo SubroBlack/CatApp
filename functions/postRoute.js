@@ -132,19 +132,33 @@ module.exports = (app) => {
     // PUT request from the form 
     app.post('/edit', upload.single('original'), (req, res, next) => {
         console.log('Oh Look what Happended!!!!!!!');
+        const originalPath = path.join('media', 'original', req.file.filename);
+
+        req.body.original = originalPath;
+        req.body.image = originalPath;
+        req.body.thumbnail = originalPath;
         req.body.time = Date.now();
+        
+        getSpot(path.join('public', originalPath))
+        .then((coords) =>{
+            req.body.coordinates = coords;
 
             Cats.findOneAndUpdate({_id: req.body.id}, 
                 { $set: { details: req.body.details, 
                     title: req.body.title, 
                     category:req.body.category, 
-                    time:req.body.time }}, 
+                    time:req.body.time,
+                    image: req.body.image,
+                    thumbnail: req.body.thumbnail,
+                    original: req.body.original}}, 
                     function (err, cat) {
                 if(err) return handleError(err);
                 cat.save();
                 res.redirect('/');
             }) 
-    })
+        })
+
+    })    
     
     // Handling the CRUD requests in crud.js
     crud(app, Cats);
