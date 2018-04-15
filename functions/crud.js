@@ -44,5 +44,12 @@ module.exports = (app, cats) =>{
         })
     })
 
-}
+    // Sending file to ./api URL after the search results
+    app.get('/api/:filter', (req, res) => {
+        console.log(req.params.filter);
+        cats.find({title: req.params.filter}, (err, data) => {
+            res.json(data)
+        })
+    })
+} 
 

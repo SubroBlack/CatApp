@@ -1,18 +1,29 @@
 const filt = document.querySelector('#filter');
+const searchCats = document.querySelector('#mySearch');
+
 
 // fetching the picArray JSON file 
 fetch('/api')
 .then((res) => res.json())
 .then((data) => {
  const picArr = data;
- console.log(picArr);
- 
+
  // filter array by category 
  updateDOM(picArr);
  filt.addEventListener('change',() => updateDOM(picArr));
 });
 
-// Selecting the Main COntainer in the DOM 
+// Search by Title
+const searchTitle = () => {
+  fetch('/api/' + searchCats.value)
+  .then((res) => res.json())
+  .then((data) => {
+    const picArr = data;
+    updateDOM(picArr);
+  })
+}
+
+// Selecting the Main Container in the DOM 
 const pics = document.querySelector('.gallery');
 
 //Creating a DOM 
