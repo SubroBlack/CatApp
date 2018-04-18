@@ -63,15 +63,6 @@ const updateDOM = (Arr) => {
     imgNode.style.display = 'none';
   };
 
-  // Function to Edit the entry
-/*    const editEntry = (e) => {
-    e.preventDefault();
-    console.log('Edit Button Clicked' + btnEdit.dataset.id);
-    fetch(btnEdit.dataset.id, {
-      method: 'PUT'
-    })
-  }; */
-
     // Function to Edit the entry
    const editEntry = () => {
     window.location.assign('/edit/' + element._id);    
