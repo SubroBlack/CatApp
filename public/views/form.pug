@@ -1,0 +1,32 @@
+doctype html
+html(lang='en')
+ head
+  title= 'Add'
+  meta(charset= 'utf-8')
+
+  link( rel= 'stylesheet' href= 'https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css' integrity= 'sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm' crossorigin= 'anonymous')
+  link(rel= 'stylesheet' href= '../style/style.css')
+
+ body
+  nav
+   a(href= '/')= 'Home'
+  main(class= 'container-fluid')
+   h2 Alright! Lets add a Kitten
+   
+   form(id= 'catAddForm' action= '/add' method= 'POST' enctype= 'multipart/form-data')
+    br
+    label Category
+    input(type= 'text' name= 'category')
+    <br>
+    label Title 
+    input(type= 'text' name= 'title')
+    <br>
+    label Details
+    input(type= 'text' name= 'details')
+    <br>
+    label Image
+    input(type= 'file' name= 'original')
+    br
+    button(class='btn' id='submit' type='submit') Submit
+  script(type= 'text/javascript' src='../scripts/form.js')
+  

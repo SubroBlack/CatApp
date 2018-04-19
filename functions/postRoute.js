@@ -11,6 +11,7 @@ const path = require('path');
 
 // Import other js files
 const crud = require('./crud.js');
+const routes = require('./routes.js');
 
 // Parse Application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -160,6 +161,9 @@ module.exports = (app) => {
 
     })    
     
+    // Handling Routes
+    routes(app, Cats);
+
     // Handling the CRUD requests in crud.js
     crud(app, Cats);
 }

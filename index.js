@@ -20,8 +20,6 @@ require('dotenv').config();
 
 // Importing the MODULES
 const postRoute = require('./functions/postRoute.js');
-const routes = require('./functions/routes.js');
-const crud = require('./functions/crud.js');
 
 // Secure Server Certificate
 const sslkey = fs.readFileSync('ssl-key.pem');
@@ -36,7 +34,6 @@ const options = {
 https.createServer(options, app).listen(3000);
 
 // Redirect from http to https
-
 http.createServer((req, res) => {
   res.writeHead(301, { 'Location': 'https:localhost:3000' + req.url});
   res.end();
@@ -65,9 +62,6 @@ mongoose.connect(`mongodb://${process.env.DB_USER}:${process.env.DB_PASS}@localh
 }, err => {
   console.log('Connection to db failed: ' + err);
 });
-
-//Handling the Routing
-routes(app);
 
 // Using PostRoute to get the data posted into db from the form
 postRoute(app);

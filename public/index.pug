@@ -1,0 +1,29 @@
+doctype html
+html(lang='en')
+ head
+  title= 'Photos'
+  meta(charset= 'utf-8')
+  link( rel= 'stylesheet' href= 'https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css' integrity= 'sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm' crossorigin= 'anonymous')
+  link(rel= 'stylesheet' href= '../style/style.css')
+ body
+  nav
+   a(href= '/')= 'Home'
+  main(class= 'container-fluid')
+   h2 Photos You Have
+
+   form
+    select(name= 'filter' id= 'filter')
+     option( value='') Select
+     option( value= 'Wife') Wife
+     option( value='Girlfriend') Girlfriend
+
+   br
+
+   label Search By Title: 
+   input( type= 'search' id= 'mySearch' placeholder= 'Search by Title' onsearch= 'searchTitle()')
+
+   ul(class= 'gallery row')
+
+  a( href= './new') Add a Cat
+      
+  script(type= 'text/javascript' src='../scripts/script.js')
