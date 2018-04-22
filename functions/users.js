@@ -43,9 +43,11 @@ module.exports = (app) => {
                 if(!user){
                     return done(null, false, {message: 'Invalid User'});
                 }
+                console.log('Username is matched');
                 User.comparePassword(password, user.password, function(err, isMatch){
                     if(err) throw err;
                     if(isMatch){
+                        console.log('password is matched');
                         return done(null, user);
                     } else {
                         return done(null, false, {message: 'Invalid Password'});
@@ -74,6 +76,12 @@ module.exports = (app) => {
         passport.authenticate('local', {successRedirect: '/', failureRedirect:'/login' }),
         (req,res) => {
             res.redirect('/');
+    })
+
+    app.get('/logout', (req,res) => {
+        req.logout();
+        console.log('User is logged out');
+        res.redirect('/login');
     })
  
 }

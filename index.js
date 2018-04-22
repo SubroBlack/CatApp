@@ -34,6 +34,14 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+// Global Variable
+app.use(function(req, res, next){
+  res.locals.user = req.user || null;
+  if(req.user!= null){
+    app.loggedUser = req.user._id;
+  } else app.loggedUser = '';
+  next();
+});
 
 // Templating
 app.set('view engine', 'pug');

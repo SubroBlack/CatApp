@@ -1,6 +1,8 @@
 nav(class= 'row')
  a(class= 'col-sm-2' href= '/')= 'Home'
  div(class= 'right')
-  a(class= 'col-sm-2' href= '/login')= 'Login'
-  a(class= 'col-sm-2' href= '/signUp')= 'Sign Up'
-  a(class= 'col-sm-2' href= '/logout')= 'Logout'
+  if !user
+   a(class= 'col-sm-2' href= '/login')= 'Login'
+   a(class= 'col-sm-2' href= '/signUp')= 'Sign Up'
+  if user
+   a(class= 'col-sm-2' href= '/logout')= 'Logout'

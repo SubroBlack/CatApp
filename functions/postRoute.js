@@ -1,9 +1,7 @@
 'use strict';
 
 const express = require('express');
-const app = express();
 const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
 const ExifImage = require('exif').ExifImage;
 const multer = require('multer');
 const sharp = require('sharp');
@@ -12,11 +10,8 @@ const path = require('path');
 // Import other js files
 const crud = require('./crud.js');
 const routes = require('./routes.js');
+const entry = require('./entry.js')
 
-// Parse Application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: false }))
-// Parse application/JSON
-app.use(bodyParser.json());
 
 // Using Sharp to resize the image
 const resize = (input, output, w, h) => {
@@ -75,27 +70,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 module.exports = (app) => {
-
- // Creating a Schema for the cat
- const Schema = mongoose.Schema;
-
- const catSchema = new Schema({
-    category: String,
-    title: String,
-    details: String,
-    coordinates : {
-        lat: Number,
-        lng: Number
-    },
-    original: String,
-    image : String,
-    thumbnail : String,
-    time: Date
- });
-
- // Using the created Cat Schema to create a cat instance
- const Cats = mongoose.model('Cats', catSchema);
-        
+ 
     /////////////POST/////////////
 
     // Reading the Form to create a new Cat 
@@ -117,7 +92,7 @@ module.exports = (app) => {
         .then((coords) =>{
             req.body.coordinates = coords;
 
-            Cats.create(req.body, (err, obj) => {
+            entry.Cats.create(req.body, (err, obj) => {
                 if (err){
                     console.log('Error in creating the Cat in cats.create: ' + err)
                 } else {
@@ -144,7 +119,7 @@ module.exports = (app) => {
         .then((coords) =>{
             req.body.coordinates = coords;
 
-            Cats.findOneAndUpdate({_id: req.body.id}, 
+            entry.Cats.findOneAndUpdate({_id: req.body.id}, 
                 { $set: { details: req.body.details, 
                     title: req.body.title, 
                     category:req.body.category, 
@@ -162,8 +137,8 @@ module.exports = (app) => {
     })    
     
     // Handling Routes
-    routes(app, Cats);
+    routes(app);
 
     // Handling the CRUD requests in crud.js
-    crud(app, Cats);
+    crud(app);
 }
