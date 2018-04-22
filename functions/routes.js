@@ -4,6 +4,9 @@ const express = require('express');
 const app = express();
 const path = require('path'); 
 
+// Import other js files
+const users = require('./users.js');
+
 module.exports = (app, cats) =>{
         
     // Serve static files from the public folder
@@ -11,7 +14,7 @@ module.exports = (app, cats) =>{
 
     // Serve the home page from pug template
     app.get('/', (req, res) => {
-        res.render('index');
+        res.render('index', { pageTitle: 'CatApp' });
     });
 
     // Rendering Cats form to the /new path
@@ -41,5 +44,18 @@ module.exports = (app, cats) =>{
             res.json(data)
         })
     })
+
+    //SignUp form 
+    app.get('/signUp', (req, res) => {
+        res.render('signUpForm' , { pageTitle: 'Register' });
+    })
+
+    //Login form 
+    app.get('/login', (req, res) => {
+        res.render('login' , { pageTitle: 'Login' });
+    })
+
+    // Handling Users
+    users(app);
 
 }

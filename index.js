@@ -1,17 +1,41 @@
 'use strict';
 
 const express = require('express');
-const app = express();
-const mongoose = require('mongoose');
+const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const https = require('https');
 const fs = require('fs');
 const http = require('http');
 const pug = require('pug');
 const helmet = require('helmet');
-const cors = require('cors');
+const cors = require('cors'); 
 const path = require('path');
+var session = require('express-session');
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
+var mongoose = require('mongoose');
 
+const app = express();
+
+// Parse Application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: true }))
+// Parse application/JSON
+app.use(bodyParser.json());
+app.use(cookieParser());
+
+// Express Session
+app.use(session({
+  secret: 'secret',
+  saveUninitialized: true,
+  resave: true
+}));
+
+// Passport init
+app.use(passport.initialize());
+app.use(passport.session());
+
+
+// Templating
 app.set('view engine', 'pug');
 app.set("views", path.join(__dirname, 'public/views'));
 
@@ -38,11 +62,6 @@ http.createServer((req, res) => {
   res.writeHead(301, { 'Location': 'https:localhost:3000' + req.url});
   res.end();
 }).listen(8080);
-
-// Parse Application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: true }))
-// Parse application/JSON
-app.use(bodyParser.json());
 
 // Using Helmet except for ieNoOpen
 app.use(helmet());

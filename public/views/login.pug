@@ -1,0 +1,17 @@
+include head.pug
+body
+ include nav.pug
+
+ main(class= 'container-fluid')
+ 
+  h3 Login
+   
+  form(id= 'login' action= '/login' method= 'POST')
+   br
+   label Email 
+   input(type= 'email' name= 'username')
+   br
+   label Password
+   input(type= 'password' name= 'password')
+   br
+   button(class='btn' id='submit' type='submit') Submit

@@ -1,0 +1,22 @@
+include head.pug
+body
+ include nav.pug
+
+ main(class= 'container-fluid')
+  h3 SignUp
+   
+  form(id= 'signUp' action= '/signUp' method= 'POST')
+   br
+   label Name
+   input(type= 'text' name= 'name')
+   br
+   label Email 
+   input(type= 'email' name= 'email')
+   br
+   label Password
+   input(type= 'password' name= 'password')
+   br
+   label Password Repeat
+   input(type= 'password' name= 'password2')
+   br
+   button(class='btn' id='submit' type='submit') Submit

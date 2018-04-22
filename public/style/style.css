@@ -139,3 +139,12 @@ h1 {
     height: 200px;
     padding: 5px;
 }
+
+nav {
+    margin: 1% 2% 10% 2%;
+    padding: 0% 2% 0% 2%;   
+}
+.right {
+    position: absolute;
+    right: 30px;   
+}
