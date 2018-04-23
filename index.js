@@ -39,7 +39,11 @@ app.use(function(req, res, next){
   res.locals.user = req.user || null;
   if(req.user!= null){
     app.loggedUser = req.user._id;
-  } else app.loggedUser = '';
+    module.exports.loggedUser = app.loggedUser;
+  } else {
+    app.loggedUser = null;
+    module.exports.loggedUser = app.loggedUser;
+  }
   next();
 });
 

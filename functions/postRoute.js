@@ -91,7 +91,7 @@ module.exports = (app) => {
         getSpot(path.join('public', originalPath))
         .then((coords) =>{
             req.body.coordinates = coords;
-            entry.createEntry(req.body);
+            entry.createEntry(req);
         }).catch(err => console.log('Error while calling the getSpot inside app.post: ' + err));
         res.redirect('/');
     })
@@ -109,7 +109,7 @@ module.exports = (app) => {
         getSpot(path.join('public', originalPath))
         .then((coords) =>{
             req.body.coordinates = coords;
-            entry.editEntry(req.body, res); 
+            entry.editEntry(req, res); 
         })
 
     })    

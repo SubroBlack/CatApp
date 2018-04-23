@@ -16,6 +16,7 @@ module.exports = (app) =>{
     // Serve the home page from pug template
     app.get('/', (req, res) => {
         console.log(app.loggedUser);
+        console.log(req.user);
         res.render('index', { pageTitle: 'CatApp' });
     });
 
@@ -32,13 +33,13 @@ module.exports = (app) =>{
 
     // Sending file to ./api URL to monitor the jSON arrays
     app.get('/api', (req, res) => {
-        entry.findAll(res);
+        entry.findAll(req, res);
     })
 
     // Sending file to ./api URL after the search results
     app.get('/api/:filter', (req, res) => {
         console.log(req.params.filter);
-        entry.filterEntry( req.params.filter, res);
+        entry.filterEntry( req, res);
     })
 
     //SignUp form 
