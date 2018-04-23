@@ -14,9 +14,7 @@ module.exports = (app) =>{
     // Delete Route for deleting the Entries from the database
     app.delete('/:id', function (req, res){
         console.log(req.params.id);
-        entry.Cats.remove({ _id: req.params.id }, function (err) {
-        if(err) return handleError(err);
-        });
+        entry.delEntry(req.params.id);
         res.redirect('/');
     })
 } 

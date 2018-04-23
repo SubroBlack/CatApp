@@ -27,24 +27,18 @@ module.exports = (app) =>{
     // Edit Route to send form
     app.get('/edit/:id', function (req, res) {
         console.log('The object is asking for edit form: ' + req.params.id);
-        entry.Cats.findOne({ _id: req.params.id }, (err, data) => {
-            res.render('formEdit', { ID: data._id, category: data.category, title: data.title, details: data.details, original: data.original });
-        })
+        entry.findEntry(req, res);
     }) 
 
     // Sending file to ./api URL to monitor the jSON arrays
     app.get('/api', (req, res) => {
-        entry.Cats.find({}, (err, data) => {
-            res.json(data)
-        })
+        entry.findAll(res);
     })
 
     // Sending file to ./api URL after the search results
     app.get('/api/:filter', (req, res) => {
         console.log(req.params.filter);
-        entry.Cats.find({title: req.params.filter}, (err, data) => {
-            res.json(data)
-        })
+        entry.filterEntry( req.params.filter, res);
     })
 
     //SignUp form 

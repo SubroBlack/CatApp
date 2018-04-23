@@ -48,7 +48,7 @@ const gpsToDecimal = (gpsData, hem) => {
         });
     });
 }
-module.exports.getSpot;
+module.exports.getSpot = getSpot;
 
 //Using Multer to get the image file
 const storage = multer.diskStorage({
@@ -61,5 +61,4 @@ const storage = multer.diskStorage({
   });
   
 const upload = multer({ storage: storage });
-module.exports.storage;
-//module.exports.upload;
+module.exports.upload = upload;

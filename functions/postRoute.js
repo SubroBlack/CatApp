@@ -91,16 +91,7 @@ module.exports = (app) => {
         getSpot(path.join('public', originalPath))
         .then((coords) =>{
             req.body.coordinates = coords;
-
-            entry.Cats.create(req.body, (err, obj) => {
-                if (err){
-                    console.log('Error in creating the Cat in cats.create: ' + err)
-                } else {
-                    console.log('successfully added an entry to the database')
-                    console.log(obj);
-                }
-            })
-
+            entry.createEntry(req.body);
         }).catch(err => console.log('Error while calling the getSpot inside app.post: ' + err));
         res.redirect('/');
     })
@@ -118,20 +109,7 @@ module.exports = (app) => {
         getSpot(path.join('public', originalPath))
         .then((coords) =>{
             req.body.coordinates = coords;
-
-            entry.Cats.findOneAndUpdate({_id: req.body.id}, 
-                { $set: { details: req.body.details, 
-                    title: req.body.title, 
-                    category:req.body.category, 
-                    time:req.body.time,
-                    image: req.body.image,
-                    thumbnail: req.body.thumbnail,
-                    original: req.body.original}}, 
-                    function (err, cat) {
-                if(err) return handleError(err);
-                cat.save();
-                res.redirect('/');
-            }) 
+            entry.editEntry(req.body, res); 
         })
 
     })    
