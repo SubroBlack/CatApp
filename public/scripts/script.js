@@ -1,9 +1,13 @@
 const filt = document.querySelector('#filter');
 const searchCats = document.querySelector('#mySearch');
+const currentUser = document.querySelector('#currentUser').value;
+console.log(currentUser);
+const userData = '/api/' + currentUser;
+console.log(userData);
 
 
 // fetching the picArray JSON file 
-fetch('/api')
+fetch(userData)
 .then((res) => res.json())
 .then((data) => {
  const picArr = data;
@@ -15,7 +19,7 @@ fetch('/api')
 
 // Search by Title
 const searchTitle = () => {
-  fetch('/api/' + searchCats.value)
+  fetch(userData + '/' + searchCats.value)
   .then((res) => res.json())
   .then((data) => {
     const picArr = data;

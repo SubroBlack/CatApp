@@ -1,44 +1,37 @@
 'use strict';
 
-const express = require('express');
-const app = express();
-const path = require('path'); 
-
 // Import other js files
 const users = require('./users.js');
 const entry = require('./entry.js');
 
 module.exports = (app) =>{
-        
-    // Serve static files from the public folder
-    app.use(express.static('public'));
 
     // Serve the home page from pug template
     app.get('/', (req, res) => {
-        console.log(app.loggedUser);
-        console.log(req.user);
         res.render('index', { pageTitle: 'CatApp' });
     });
 
-    // Rendering Cats form to the /new path
+    // Rendering Cats add form to the /new path
     app.get('/new', (req, res) => {
         res.render('form');
     })
 
     // Edit Route to send form
     app.get('/edit/:id', function (req, res) {
-        console.log('The object is asking for edit form: ' + req.params.id);
+        console.log('The object is asking for edit form: ' + req.params.id + ' User ' + req.user);
         entry.findEntry(req, res);
     }) 
 
     // Sending file to ./api URL to monitor the jSON arrays
-    app.get('/api', (req, res) => {
+    app.get('/api/:owner', (req, res) => {
+        req.userId = app.loggedUser;
         entry.findAll(req, res);
     })
 
     // Sending file to ./api URL after the search results
-    app.get('/api/:filter', (req, res) => {
-        console.log(req.params.filter);
+    app.get('/api/:owner/:title', (req, res) => {
+        console.log('The owner of the data' + req.params.owner);
+        console.log('The title of the data' + req.params.title);
         entry.filterEntry( req, res);
     })
 

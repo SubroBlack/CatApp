@@ -15,7 +15,11 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var mongoose = require('mongoose');
 
+
 const app = express();
+
+// Serve static files from the public folder
+app.use(express.static('public'));
 
 // Parse Application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -39,9 +43,11 @@ app.use(function(req, res, next){
   res.locals.user = req.user || null;
   if(req.user!= null){
     app.loggedUser = req.user._id;
+    res.locals.loggedUser = req.user._id;
     module.exports.loggedUser = app.loggedUser;
   } else {
     app.loggedUser = null;
+    res.locals.loggedUser = null;
     module.exports.loggedUser = app.loggedUser;
   }
   next();

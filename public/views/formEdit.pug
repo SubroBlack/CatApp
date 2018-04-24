@@ -1,20 +1,12 @@
-
-doctype html
-html(lang='en')
- head
-  title= 'Edit the Kitten'
-  meta(charset= 'utf-8')
- body
-  nav
-   a(href= '/')= 'Home'
-  main
+include head.pug
+body
+ include nav.pug
+ main
    h2 Alright! Lets edit this Kitten
-   h5 With the id: ID
    
    form(id= 'catEditForm' action= '/edit' method= 'POST' enctype= 'multipart/form-data')
-    label ID of the element
-    input(type='text' id='idGrab' name= 'id' value= ID readonly)    
-    br
+    input(type= 'hidden' name= 'id' value= ID readonly)
+    input(type= 'hidden' name= 'owner' value= owner readonly)    
     label Category
     input(type= 'text' name= 'category' value= category )
     <br>
@@ -28,5 +20,5 @@ html(lang='en')
     input(type= 'file' name= 'original')
     br
     button(class='btn' id='subEdit' type='submit') Submit
-  script(type= 'text/javascript' src='../scripts/editForm.js')
+ script(type= 'text/javascript' src='../scripts/editForm.js')
   

@@ -1,7 +1,4 @@
 'use strict';
-
-const express = require('express');
-const mongoose = require('mongoose');
 const ExifImage = require('exif').ExifImage;
 const multer = require('multer');
 const sharp = require('sharp');

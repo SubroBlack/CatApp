@@ -1,8 +1,10 @@
 nav(class= 'row')
  a(class= 'col-sm-2' href= '/')= 'Home'
  div(class= 'right')
-  if !user
+  if !loggedUser
    a(class= 'col-sm-2' href= '/login')= 'Login'
    a(class= 'col-sm-2' href= '/signUp')= 'Sign Up'
-  if user
+  if loggedUser
    a(class= 'col-sm-2' href= '/logout')= 'Logout'
+ - if (!loggedUser) {loggedUser= '0701'}
+ input(type='hidden' id= 'currentUser' name= 'owner' value= loggedUser readonly)
