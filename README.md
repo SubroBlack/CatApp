@@ -9,5 +9,12 @@ App to Add an View Cats pictures
 - Open image in modal
 - See the location of the image in the Google map 
 - Search displayed entries with the image title
+- Users can register and signin
+- Files added by signed in users can only be seen by them
+- Files added by users without signing in are saved as public files and      can be seen and edited by everyone
 
+<h3>Things to be done: </h3>
 
+- Separate modules properly
+- Clean the code 
+- FIx issues with Sharp
